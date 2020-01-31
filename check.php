@@ -28,14 +28,14 @@
     <input type="hidden" name="email" value="">
     </div>
     
-    <div class="content-button">
     <input type="hidden" name="return" value="戻る" class="submit">
     <input type="hidden" name="submit" value="確認" class="submit">
     <?php elseif ($nickname != '' && $email != ''): ?>
     <p><?php echo "あなたのニックネームは{$nickname}です"?></p>
     <p><?php echo "あなたのメールアドレスは{$email}です"?></p>
+    <div class="content-button">
     <input type="submit" name="return" value="戻る" class="submit">
-    <input type="submit" name="submit" value="確認" class="submit">
+    <input type="submit" name="submit" value="送信" class="submit">
     <?php endif; ?>
     </div>
     </form>
