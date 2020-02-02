@@ -1,4 +1,9 @@
 <?php
+
+    if ($_SERVER ['REQUEST_METHOD'] !== 'POST'){
+        header('location: index.php');
+    }
+
     $to = "sanae.kawasaka@gmail.com";
     $subject = "入力がありました！";
     $message = "入力です";
@@ -6,7 +11,7 @@
 
     mb_language("Japanese");
     mb_encode_mimeheader("UTF-8");
-    mb_send_mail($to, $subject, $message, "From" .$from);
+    mb_send_mail($to, $subject, $message, "From:" .$from);
     ?>
 
 <!DOCTYPE html>
@@ -22,9 +27,9 @@
 <body>
     <form action="" method="post">
         <h1>送信が完了しました！</h1>
+        <div class="content">
         <p>ありがとうございました。</p>
-        <input type="hidden" name="nickname" value="">
-        <input type="hidden" name="email" value="">
+        </div>
     </form>
 </body>
 </html>
