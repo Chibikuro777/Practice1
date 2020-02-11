@@ -26,6 +26,11 @@ h1{
     margin-bottom: 2%;
 }
 
+.title{
+    display: flex;
+    justify-content: center;
+}
+
 .submit{
     border-style: none;
     border: 2px dashed black;
