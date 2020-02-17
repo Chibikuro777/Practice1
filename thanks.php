@@ -1,5 +1,5 @@
 <?php
-if($_SERVER["REQUEST_METHOD"] != "POST"){
+if($_SERVER["REQUEST_METHOD"] !== "POST" || $_POST["button"] !== "submit"){
     header("location: index.php");
 }
 
@@ -33,6 +33,7 @@ if($_SERVER["REQUEST_METHOD"] != "POST"){
             <h1>送信が完了しました！</h1>
             <div class="content">
             <p>ありがとうございました。</p>
+            </div>
         </form>
     </body>
 </html>

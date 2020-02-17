@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body>
-        <form action="check.php" method="post">
+        <form action="check.php" method="POST">
             <h1>入力フォーム</h1>
             <div class="content">
                 名前（姓）&nbsp;&nbsp;<input type="text" name="last-name" value=""class="">
@@ -50,7 +50,7 @@
             <div class="content">
                 お問い合わせ内容&nbsp;&nbsp;<textarea name="content" cols="50" rows="10"></textarea>
             </div>
-            <input type="submit" name="submit" value="確認" class="submit">
+            <button type="submit" name="button" value="input" class="submit">確認</button>
         </form>
     </body>
 </html>

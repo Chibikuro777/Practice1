@@ -56,3 +56,8 @@ h1{
     justify-content: center;
     margin-bottom: 2%;
 }
+
+input{
+    width: 20%;
+    height: 20%;
+}
