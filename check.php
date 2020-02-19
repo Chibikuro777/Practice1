@@ -5,108 +5,159 @@ if($_SERVER["REQUEST_METHOD"] !== "POST" && $_POST["button"] !== "input"){
     exit;
 }
 
-// inputからの値を多次元配列にする（バリデーション項目が増えたときの対応）
-// $requestに配列を代入
-$request = [];
+ // if文を関数化
+    // $request = $_POST[$key];
+        function isError($errors){ 
+        // $request = [];
 
-$request["posts"]["first-name"] = $_POST["first-name"];
-$request["posts"]["last-name"] = $_POST['last-name'];
-$request["posts"]["first-kananame"] = $_POST['first-kananame'];
-$request["posts"]["last-kananame"] = $_POST['last-kananame'];
-$request["posts"]["zip"] = $_POST['zip'];
-$request["posts"]["pref"] = $_POST['pref'];
-$request["posts"]["city"] = $_POST['city'];
-$request["posts"]["bld"] = $_POST['bld'];
-$request["posts"]["num"] = $_POST['num'];
-$request["posts"]["tel"] = $_POST['tel'];
-$request["posts"]["email"] = $_POST['email'];
-$request["posts"]["c_email"] = $_POST['c_email'];
-$request["posts"]["content"] = $_POST['content'];
+        $request["posts"]["first-name"] = $_POST["first-name"]; //POSTの値を多次元配列に入れる
+        $request["posts"]["last-name"] = $_POST['last-name'];
+        $request["posts"]["first-kananame"] = $_POST['first-kananame'];
+        $request["posts"]["last-kananame"] = $_POST['last-kananame'];
+        $request["posts"]["zip"] = $_POST['zip'];
+        $request["posts"]["pref"] = $_POST['pref'];
+        $request["posts"]["city"] = $_POST['city'];
+        $request["posts"]["bld"] = $_POST['bld'];
+        $request["posts"]["num"] = $_POST['num'];
+        $request["posts"]["tel"] = $_POST['tel'];
+        $request["posts"]["email"] = $_POST['email'];
+        $request["posts"]["c_email"] = $_POST['c_email'];
+        $request["posts"]["content"] = $_POST['content'];
+       
+        $request["errors"]["first-name"] = "";
+        $request["errors"]["last-name"] = "";
+        $request["errors"]["first-kananame"] = "";
+        $request["errors"]["last-kananame"] = "";
+        $request["errors"]["zip"] = "";
+        $request["errors"]["pref"] = "";
+        $request["errors"]["city"] = "";
+        $request["errors"]["num"] = "";
+        $request["errors"]["tel"] = "";
+        $request["errors"]["email"] = "";
+        $request["errors"]["c_email"] = "";
+        $request["errors"]["content"] = "";
 
-$request["errors"]["first-name"] = "";
-$request["errors"]["last-name"] = "";
-$request["errors"]["first-kananame"] = "";
-$request["errors"]["last-kananame"] = "";
-$request["errors"]["zip"] = "";
-$request["errors"]["pref"] = "";
-$request["errors"]["city"] = "";
-$request["errors"]["num"] = "";
-$request["errors"]["tel"] = "";
-$request["errors"]["email"] = "";
-$request["errors"]["c_email"] = "";
-$request["errors"]["content"] = "";
+        $errors = ["last-name" => "姓は必須項目です",
+                   "first-name" => "名は必須項目です",
+                   "last-kananame" => "セイは必須項目です",
+                   "last-kananame2" => "セイはカナで入力してください"
+                ];
 
-// バリデーション詳細（項目毎)
-if(empty($request["posts"]["first-name"])){
-    $request["errors"]["first-name"] = "※名は必須項目です";
+        if(empty($request["posts"]["last-name"])){
+            $errorMessage = $errors["last-name"];
+        }
+
+        if(empty($request["posts"]["first-name"])){
+            $errorMessage = $errors["first-name"];
+        }
+        
+        if(empty($request["posts"]["last-kananame"])){
+            $errorMessage = $errors["last-kananame"];
+        }elseif(!preg_match("/^[ァ-ヶー]+$/u", $request["posts"]["last-kananame"])){
+            $errorMessage = $errors["last-kananame2"];
+        }
+
+        return $errorMessage;
 }
 
-if(empty($request["posts"]["last-name"])){
-    $request["errors"]["last-name"] = "※姓は必須項目です";
-}
+        echo '<pre>';
+        print_r(isError($errors["last-name"]));
+        echo '</pre>';
+       
 
-if(empty($request["posts"]["last-kananame"])){
-    $request["errors"]["last-kananame"] = "※フリガナ（セイ）は必須項目です";
-}elseif(!preg_match("/^[ァ-ヶー]+$/u", $request["posts"]["last-kananame"])){
-    $request["errors"]["last-kananame"] = "※カタカナで入力してください";
-}
+        // $errorsを引数に受け取る
+        
+        // if(empty($request["posts"]["first-name"])){ //条件と処理を入力
+        //     $request["errors"]["first-name"] = "※名は必須項目です";
+        // }
+        
+        // if(empty($request["posts"]["last-name"])){
+        //     $request["errors"]["last-name"] = "※姓は必須項目です";
+        // }
+        
+        // if(empty($request["posts"]["last-kananame"])){
+        //     $request["errors"]["last-kananame"] = "※フリガナ（セイ）は必須項目です";
+        // }elseif(!preg_match("/^[ァ-ヶー]+$/u", $request["posts"]["last-kananame"])){
+        //     $request["errors"]["last-kananame"] = "※カタカナで入力してください";
+        // }
+        
+        // if(empty($request["posts"]["first-kananame"])){
+        //     $request["errors"]["first-kananame"] = "※フリガナ（メイ）は必須項目です";
+        // }elseif(!preg_match("/^[ァ-ヶー]+$/u", $request["posts"]["first-kananame"])){
+        //     $request["errors"]["first-kananame"] = "※カタカナで入力してください";
+        // }
+        
+        // if(empty($request["posts"]["zip"])){
+        //     $request["errors"]["zip"] = "※郵便番号は必須項目です";
+        // }elseif(!preg_match("/^[0-9]{7}$/", $request["posts"]["zip"])){
+        //     $request["errors"]["zip"] = "※-(ハイフン)抜き半角数字で入力してください";
+        // }
+        
+        // if(empty($request["posts"]["pref"])){
+        //     $request["errors"]["pref"] = "※都道府県は必須項目です";
+        // }
+        
+        // if(empty($request["posts"]["city"])){
+        //     $request["errors"]["city"] = "※市町村は必須項目です";
+        // }
+        
+        // if(empty($request["posts"]["num"])) {
+        //     $request["errors"]["num"] = "※番地は必須項目です";
+        // }
+        
+        // if(empty($request["posts"]["tel"])){
+        //     $request["errors"]["tel"] = "※電話番号は必須項目です";
+        // }elseif(!preg_match("/^[0-9]{9,11}$/", $request["posts"]["tel"])){
+        //     $request["errors"]["tel"] = "-(ハイフン)抜き半角数字で入力してください";
+        // }
+        
+        // // メールアドレスバリデーション
+        // if($request["posts"]["email"] === $request["posts"]["c_email"]){
+        //     if(empty($request["posts"]["email"] && $request["posts"]["c_email"])){
+        //         $request["errors"]["email"] = "※メールアドレスは必須項目です";
+        //     }
+            
+        //     if(!preg_match("/^[a-z][a-zA-Z0-9_¥.¥-]*@[a-zA-Z0-9_¥.¥-]+$/",$request["posts"]["email"])){
+        //         $request["errors"]["email"] = "※メールアドレス形式で入力してください";
+        //     }
+        
+        //     if(!preg_match("/^[a-z][a-zA-Z0-9_¥.¥-]*@[a-zA-Z0-9_¥.¥-]+$/",$request["posts"]["c_email"])){
+        //         $request["errors"]["c_email"] = "※メールアドレス形式で入力してください";
+        //     }
+        // }else{
+        //     $request["errors"]["c_email"] = "※メールアドレスが一致しません";
+        // }
+        
+        // if(empty($request["posts"]["content"])){
+        //     $request["errors"]["content"] = "※内容は必須項目です";
+        // }
 
-if(empty($request["posts"]["first-kananame"])){
-    $request["errors"]["first-kananame"] = "※フリガナ（メイ）は必須項目です";
-}elseif(!preg_match("/^[ァ-ヶー]+$/u", $request["posts"]["first-kananame"])){
-    $request["errors"]["first-kananame"] = "※カタカナで入力してください";
-}
+        // if(!empty(array_filter($request["errors"]) || $_POST["button"] === "return")){
+        //     $request["flag"] = "input";
+        // }else{
+        //     $request["flag"] = "confirm";
+        // }
 
-if(empty($request["posts"]["zip"])){
-    $request["errors"]["zip"] = "※郵便番号は必須項目です";
-}elseif(!preg_match("/^[0-9]{7}$/", $request["posts"]["zip"])){
-    $request["errors"]["zip"] = "※-(ハイフン)抜き半角数字で入力してください";
-}
+    // function getPostData($error){ // 関数に$request多次元配列を引数に入れる
+    //     $request = [];
+    //         foreach($request as $key => $val){
+    //             $error = $request[$key][$val];
+    //         }
+    //     return $error;
+    // }
+    // echo '<pre>';
+    // print_r($request);
+    // echo '</pre>';
 
-if(empty($request["posts"]["pref"])){
-    $request["errors"]["pref"] = "※都道府県は必須項目です";
-}
+    // // if文を関数化
+    // $request = $_POST[$key]; // POSTのデータをrequestに代入
+    // function isError($errors){ // $errorsを引数に受け取る
+    //     if(empty($request)){ // POSTデータが空だったら
+    //         $errors = $request[$key2][$val]; // エラーメッセージを関数に返す
+    //     }
+    //     return $errors;
+    // }
 
-if(empty($request["posts"]["city"])){
-    $request["errors"]["city"] = "※市町村は必須項目です";
-}
-
-if(empty($request["posts"]["num"])) {
-    $request["errors"]["num"] = "※番地は必須項目です";
-}
-
-if(empty($request["posts"]["tel"])){
-    $request["errors"]["tel"] = "※電話番号は必須項目です";
-}elseif(!preg_match("/^[0-9]{9,11}$/", $request["posts"]["tel"])){
-    $request["errors"]["tel"] = "-(ハイフン)抜き半角数字で入力してください";
-}
-
-// メールアドレスバリデーション
-if($request["posts"]["email"] === $request["posts"]["c_email"]){
-    if(empty($request["posts"]["email"] && $request["posts"]["c_email"])){
-        $request["errors"]["email"] = "※メールアドレスは必須項目です";
-    }
-    
-    if(!preg_match("/^[a-z][a-zA-Z0-9_¥.¥-]*@[a-zA-Z0-9_¥.¥-]+$/",$request["posts"]["email"])){
-        $request["errors"]["email"] = "※メールアドレス形式で入力してください";
-    }
-
-    if(!preg_match("/^[a-z][a-zA-Z0-9_¥.¥-]*@[a-zA-Z0-9_¥.¥-]+$/",$request["posts"]["c_email"])){
-        $request["errors"]["c_email"] = "※メールアドレス形式で入力してください";
-    }
-}else{
-    $request["errors"]["c_email"] = "※メールアドレスが一致しません";
-}
-
-if(empty($request["posts"]["content"])){
-    $request["errors"]["content"] = "※内容は必須項目です";
-}
-
-if(!empty(array_filter($request["errors"]) || $_POST["button"] === "return")){
-    $request["flag"] = "input";
-}else{
-    $request["flag"] = "confirm";
-}
 ?>
 
 <!DOCTYPE html>
@@ -123,18 +174,19 @@ if(!empty(array_filter($request["errors"]) || $_POST["button"] === "return")){
     <div class="title">
     <h1>確認フォーム</h1>
     </div>
-    <?php if ($request["flag"] === "input"): ?>
+    <!-- <?php if ($request["flag"] === "input"): ?> -->
         <form action="" method="POST">
                 <div class="content">
+                    <!-- <p><?php echo htmlspecialchars($display_name)?></p> -->
                     名前（姓）&nbsp;&nbsp;<input type="text" name="last-name" value="<?= isset($request["posts"]["last-name"]) ? htmlspecialchars($request["posts"]["last-name"]) : ""?>" class="">
-                    <?php if(!empty($request["errors"]["last-name"])) : ?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["last-name"])?></p>
+                    <?php if(empty($request["posts"]["last-name"])) : ?>
+                    <p style="color: red;"><?php echo htmlspecialchars(isError($errors["last-name"]))?></p>
                     <?php endif; ?>
                 </div>
                 <div class="content">
                     名前（名）&nbsp;&nbsp;<input type="text" name="first-name" value="<?= isset($request["posts"]["first-name"]) ? htmlspecialchars($request["posts"]["first-name"]) : ""?>">
-                    <?php if(!empty($request["errors"]["first-name"])) : ?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["first-name"])?></p>
+                    <?php if(empty($request["posts"]["first-name"])) : ?>
+                    <p style="color: red;"><?php echo htmlspecialchars(isError($errors["first-name"]))?></p>
                     <?php endif; ?>
                 </div>
                 <div class="content">
@@ -150,7 +202,7 @@ if(!empty(array_filter($request["errors"]) || $_POST["button"] === "return")){
                     <?php endif; ?>
                     </div>
                 <div class="content">
-                    郵便番号&nbsp;&nbsp;<input type="text" name="zip" value="<?= isset($request["posts"]["zip"]) ? htmlspecialchars($request["posts"]["zip"]) : ""?>">
+                    郵便番号&nbsp;&nbsp;<input type="text" name="zip" value="<?= isset($request["posts"]["zip"]) ? htmlspecialchars(($request["posts"]["zip"])) : ""?>">
                     <?php if(!empty($request["errors"]["zip"])) :?>
                     <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["zip"])?></p>
                     <?php endif;?>
