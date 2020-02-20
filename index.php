@@ -8,7 +8,7 @@
         <link rel="stylesheet" href="css/reset.css">
         <link rel="stylesheet" href="css/style.css">
     </head>
-    <body>
+    <body> 
         <form action="check.php" method="POST">
             <h1>入力フォーム</h1>
             <div class="content">

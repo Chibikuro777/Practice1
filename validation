@@ -116,3 +116,125 @@
 // }
 
 
+// HTML内保存用
+    <!-- <?php if ($request["flag"] === "input"): ?> -->
+                
+                
+           
+                <div class="content">
+                    郵便番号&nbsp;&nbsp;<input type="text" name="zip" value="<?= isset($request["posts"]["zip"]) ? htmlspecialchars(($request["posts"]["zip"])) : ""?>">
+                    <?php if(!empty($request["errors"]["zip"])) :?>
+                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["zip"])?></p>
+                    <?php endif;?>
+                </div>
+                <div class="content">
+                    都道府県&nbsp;&nbsp;<input type="text" name="pref" value="<?php echo isset($request["posts"]["pref"]) ? htmlspecialchars($request["posts"]["pref"]) : ""?>">
+                    <?php if(!empty($request["errors"]["pref"])) :?>
+                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["pref"])?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="content">
+                    市区町村&nbsp;&nbsp;<input type="text" name="city" value="<?= isset($request["posts"]["city"]) ? htmlspecialchars($request["posts"]["city"]) : "" ?>">
+                    <?php if(!empty($request["errors"]["city"])) :?>
+                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["city"])?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="content">
+                    番地&nbsp;&nbsp;<input type="text" name="num" value="<?= isset($request["posts"]["num"]) ? htmlspecialchars($request["posts"]["num"]) : ""?>">
+                    <?php if(!empty($request["errors"]["num"])) :?>
+                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["num"])?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="content">
+                    建物名&nbsp;&nbsp;<input type="text" name="bld" value="<?= isset($request["posts"]["bld"]) ? htmlspecialchars($request["posts"]["bld"]) : ""?>">
+                </div>
+                <div class="content">
+                    電話番号&nbsp;&nbsp;<input type="text" name="tel" value="<?= isset($request["posts"]["tel"]) ? htmlspecialchars($request["posts"]["tel"]) : ""?>">
+                    <?php if(!empty($request["errors"]["tel"])) :?>
+                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["tel"])?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="content">
+                    メールアドレス&nbsp;&nbsp;<input type="text" name="email" value="<?= isset($request["posts"]["email"]) ? htmlspecialchars($request["posts"]["email"]) : ""?>">
+                    <?php if(!empty($request["errors"]["email"])) :?>
+                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["email"])?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="content">
+                    確認用メールアドレス&nbsp;&nbsp;<input type="text" name="c_email" value="<?= isset($request["posts"]["c_email"]) ? htmlspecialchars($request["posts"]["c_email"]) : ""?>">
+                    <?php if(!empty($request["errors"]["c_email"])) :?>
+                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["c_email"])?></p>
+                    <?php endif; ?>
+                </div>
+                <div class="content">
+                    お問い合わせ内容&nbsp;&nbsp;<textarea name="content" cols="50" rows="10"><?= isset($request["posts"]["content"]) ? htmlspecialchars($request["posts"]["content"]) : ""?></textarea>
+                    <?php if(!empty($request["errors"]["content"])) :?>
+                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["content"])?></p>
+                    <?php endif; ?>
+                </div>
+                
+        </form>
+
+        <?php elseif($request["flag"] === "confirm") :?>
+        <form action="" method="POST">
+            <?php foreach($request["posts"] as $key => $val) :?>
+                <input type="hidden" name="<?= $key ?>" value="<?= $val?>">
+                <?php endforeach ?>
+                <div class="content">
+                    姓：
+                    <p><?php echo htmlspecialchars($request["posts"]["last-name"]) ?></p>
+                </div>
+                <div class="content">
+                    名：
+                    <p><?php echo htmlspecialchars($request["posts"]["first-name"]) ?></p>
+                </div>
+                <div class="content">
+                    セイ：
+                    <p><?php echo htmlspecialchars($request["posts"]["last-kananame"]) ?></p>
+                </div>
+                <div class="content">
+                    メイ：
+                    <p><?php echo htmlspecialchars($request["posts"]["first-kananame"]) ?></p>
+                </div>
+                <div class="content">
+                    郵便番号：
+                    <p><?php echo htmlspecialchars($request["posts"]["zip"]) ?></p>
+                </div>
+                <div class="content">
+                    都道府県：
+                    <p><?php echo htmlspecialchars($request["posts"]["pref"]) ?></p>
+                </div>
+                <div class="content">
+                    市区町村：
+                    <p><?php echo htmlspecialchars($request["posts"]["city"]) ?></p>
+                </div>
+                <div class="content">
+                    番地：
+                    <p><?php echo htmlspecialchars($request["posts"]["num"]) ?></p>
+                </div>
+                <div class="content">
+                    建物：
+                    <p><?php echo htmlspecialchars($request["posts"]["bld"]) ?></p>
+                </div>
+                <div class="content">
+                    電話番号：
+                    <p><?php echo htmlspecialchars($request["posts"]["tel"]) ?></p>
+                </div>
+                <div class="content">
+                メールアドレス：<p><?php echo htmlspecialchars($request["posts"]["email"]) ?></p>
+                </div>
+                <div class="content">
+                    確認用メールアドレス：
+                    <p><?php echo htmlspecialchars($request["posts"]["c_email"]) ?></p>
+                </div>
+                <div class="content">
+                    内容：
+                    <p><?php echo htmlspecialchars($request["posts"]["content"]) ?></p>
+                </div>
+                <div class="content-button">
+                    <button type="submit" name="button" formaction= "" value="return" class="submit">キャンセル</button>
+                    <button type="submit" name ="button" formaction= "thanks.php" value="submit" class="submit">送信</button>
+                </div>
+        
+        <?php endif; ?>
+

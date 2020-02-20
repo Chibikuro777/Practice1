@@ -1,68 +1,114 @@
 <?php
-// POST送信以外index.phpにリダイレクトする
-if($_SERVER["REQUEST_METHOD"] !== "POST" && $_POST["button"] !== "input"){
-    header("location: index.php");
-    exit;
-}
-
- // if文を関数化
+    // if文を関数化
     // $request = $_POST[$key];
-        function isError($errors){ 
-        // $request = [];
+    // $postの内容が空白かそうでないか確認
+    // 空白だったらエラー表示、そうでなければその値を出す
+    // 違う$postの値も一緒にバリデーション確認する
+    $post = $_POST;
+    function isValidation($post){
+        if(empty($post["last-name"])){
+            $errorMessage[] = "※姓は必須項目です";
+        }else{
+            $errorMessage[] = "";
+        }
+        if(empty($post["first-name"])){
+            $errorMessage[] = "※名は必須項目です";
+        }else{
+            $errorMessage[] = "";
+        }
+        foreach($errorMessage as $val){
+            $val; 
+        }
+        return $val;
+    }
 
-        $request["posts"]["first-name"] = $_POST["first-name"]; //POSTの値を多次元配列に入れる
-        $request["posts"]["last-name"] = $_POST['last-name'];
-        $request["posts"]["first-kananame"] = $_POST['first-kananame'];
-        $request["posts"]["last-kananame"] = $_POST['last-kananame'];
-        $request["posts"]["zip"] = $_POST['zip'];
-        $request["posts"]["pref"] = $_POST['pref'];
-        $request["posts"]["city"] = $_POST['city'];
-        $request["posts"]["bld"] = $_POST['bld'];
-        $request["posts"]["num"] = $_POST['num'];
-        $request["posts"]["tel"] = $_POST['tel'];
-        $request["posts"]["email"] = $_POST['email'];
-        $request["posts"]["c_email"] = $_POST['c_email'];
-        $request["posts"]["content"] = $_POST['content'];
+    
+    
+    // $lastName = $post["last-name"];
+    function isKanaValidation($post){ //isValidationの中で$_POSTに対して処理をする
+       if(!preg_match("/^[ァ-ヶー]+$/u",$post["last-kananame"])){
+            $errorMessage = "セイはカナで入力してください";
+       }else{
+            $errorMessage = "";
+       }
+       if(!preg_match("/^[ァ-ヶー]+$/u",$post["first-kananame"])){
+            $errorMessage = "メイはカナで入力してください";
+       }else{
+            $errorMessage = "";
+       }
        
-        $request["errors"]["first-name"] = "";
-        $request["errors"]["last-name"] = "";
-        $request["errors"]["first-kananame"] = "";
-        $request["errors"]["last-kananame"] = "";
-        $request["errors"]["zip"] = "";
-        $request["errors"]["pref"] = "";
-        $request["errors"]["city"] = "";
-        $request["errors"]["num"] = "";
-        $request["errors"]["tel"] = "";
-        $request["errors"]["email"] = "";
-        $request["errors"]["c_email"] = "";
-        $request["errors"]["content"] = "";
+       return $errorMessage;
+    }
 
-        $errors = ["last-name" => "姓は必須項目です",
-                   "first-name" => "名は必須項目です",
-                   "last-kananame" => "セイは必須項目です",
-                   "last-kananame2" => "セイはカナで入力してください"
-                ];
+    echo "<pre>";
+    print_r(isKanaValidation($post));
+    echo "</pre>";
 
-        if(empty($request["posts"]["last-name"])){
-            $errorMessage = $errors["last-name"];
-        }
 
-        if(empty($request["posts"]["first-name"])){
-            $errorMessage = $errors["first-name"];
-        }
+
+// POST送信以外index.phpにリダイレクトする
+// if($_SERVER["REQUEST_METHOD"] !== "POST" && $_POST["button"] !== "input"){
+//     header("location: index.php");
+//     exit;
+// }
+
+    // $post = $_POST;
+    // print_r(isValidate($post));
+
+    // function isValidate($post)
+    // {
+    //     if(!empty($post["last-name"])){
+    //         $errorMessage['last-name'] = '必須項目です';
+    //     }
+
+    //     if(empty($post["first-name"])){
+    //         $errorMessage['first-name']  '必須項目です'];
+    //     }
+
+    //     return $errorMessage;
+    // }
+
+    // $request["posts"]["first-name"] = $_POST["first-name"]; //POSTの値を多次元配列に入れる
+    // $request["posts"]["last-name"] = $_POST['last-name'];
+    // $request["posts"]["first-kananame"] = $_POST['first-kananame'];
+    // $request["posts"]["last-kananame"] = $_POST['last-kananame'];
+    // $request["posts"]["zip"] = $_POST['zip'];
+    // $request["posts"]["pref"] = $_POST['pref'];
+    // $request["posts"]["city"] = $_POST['city'];
+    // $request["posts"]["bld"] = $_POST['bld'];
+    // $request["posts"]["num"] = $_POST['num'];
+    // $request["posts"]["tel"] = $_POST['tel'];
+    // $request["posts"]["email"] = $_POST['email'];
+    // $request["posts"]["c_email"] = $_POST['c_email'];
+    // $request["posts"]["content"] = $_POST['content'];
+   
+    // $request["errors"]["first-name"] = "";
+    // $request["errors"]["last-name"] = "";
+    // $request["errors"]["first-kananame"] = "";
+    // $request["errors"]["last-kananame"] = "";
+    // $request["errors"]["zip"] = "";
+    // $request["errors"]["pref"] = "";
+    // $request["errors"]["city"] = "";
+    // $request["errors"]["num"] = "";
+    // $request["errors"]["tel"] = "";
+    // $request["errors"]["email"] = "";
+    // $request["errors"]["c_email"] = "";
+    // $request["errors"]["content"] = "";
+
+        // if(empty($request["posts"]["first-name"])){
+        //     $errorMessage[] = $errors["first-name"];
+        // }
         
-        if(empty($request["posts"]["last-kananame"])){
-            $errorMessage = $errors["last-kananame"];
-        }elseif(!preg_match("/^[ァ-ヶー]+$/u", $request["posts"]["last-kananame"])){
-            $errorMessage = $errors["last-kananame2"];
-        }
+        // if(empty($request["posts"]["last-kananame"])){
+        //     $errorMessage[] = $errors["last-kananame"];
+        // }elseif(!preg_match("/^[ァ-ヶー]+$/u", $request["posts"]["last-kananame"])){
+        //     $errorMessage[] = $errors["last-kananame2"];
+        // }
+    
 
-        return $errorMessage;
-}
-
-        echo '<pre>';
-        print_r(isError($errors["last-name"]));
-        echo '</pre>';
+        // echo '<pre>';
+        // print_r(isValidation(["last-name"]));
+        // echo '</pre>';
        
 
         // $errorsを引数に受け取る
@@ -158,7 +204,7 @@ if($_SERVER["REQUEST_METHOD"] !== "POST" && $_POST["button"] !== "input"){
     //     return $errors;
     // }
 
-?>
+    ?>
 
 <!DOCTYPE html>
 <html lang="ja">
@@ -174,150 +220,35 @@ if($_SERVER["REQUEST_METHOD"] !== "POST" && $_POST["button"] !== "input"){
     <div class="title">
     <h1>確認フォーム</h1>
     </div>
-    <!-- <?php if ($request["flag"] === "input"): ?> -->
         <form action="" method="POST">
                 <div class="content">
                     <!-- <p><?php echo htmlspecialchars($display_name)?></p> -->
-                    名前（姓）&nbsp;&nbsp;<input type="text" name="last-name" value="<?= isset($request["posts"]["last-name"]) ? htmlspecialchars($request["posts"]["last-name"]) : ""?>" class="">
-                    <?php if(empty($request["posts"]["last-name"])) : ?>
-                    <p style="color: red;"><?php echo htmlspecialchars(isError($errors["last-name"]))?></p>
+                    名前（姓）&nbsp;&nbsp;<input type="text" name="last-name" value="<?= isset($post["last-name"]) ? htmlspecialchars($post["last-name"]) : ""?>" class="">
+                    <?php if(empty($post["last-name"])) : ?>
+                    <p style="color: red;"><?php echo isValidation($post["last-name"])?></p>
                     <?php endif; ?>
                 </div>
                 <div class="content">
-                    名前（名）&nbsp;&nbsp;<input type="text" name="first-name" value="<?= isset($request["posts"]["first-name"]) ? htmlspecialchars($request["posts"]["first-name"]) : ""?>">
-                    <?php if(empty($request["posts"]["first-name"])) : ?>
-                    <p style="color: red;"><?php echo htmlspecialchars(isError($errors["first-name"]))?></p>
+                    名前（名）&nbsp;&nbsp;<input type="text" name="first-name" value="<?= isset($post["first-name"]) ? htmlspecialchars($post["first-name"]) : ""?>">
+                    <?php if(empty($post["first-name"])) : ?>
+                    <p style="color: red;"><?php echo isValidation($post["first-name"])?></p>
                     <?php endif; ?>
                 </div>
                 <div class="content">
                     フリガナ（セイ）&nbsp;&nbsp;<input type="text" name="last-kananame" value="<?= isset($request["posts"]["last-kananame"]) ? htmlspecialchars($request["posts"]["last-kananame"]) : "" ?>">
-                    <?php if(!empty($request["errors"]["last-kananame"])) :?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["last-kananame"])?></p>
+                    <?php if(!empty($post["last-kananame"])) :?>
+                    <p style="color: red;"><?php echo isKanaValidation($post["last-kananame"])?></p>
                     <?php endif; ?>
                 </div>
                 <div class="content">
                     フリガナ（メイ）&nbsp;&nbsp;<input type="text" name="first-kananame" value="<?= isset($request["posts"]["first-kananame"]) ? htmlspecialchars($request["posts"]["first-kananame"]) : ""?>">
-                    <?php if(!empty($request["errors"]["first-kananame"])) :?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["first-kananame"]) ?></p>
-                    <?php endif; ?>
-                    </div>
-                <div class="content">
-                    郵便番号&nbsp;&nbsp;<input type="text" name="zip" value="<?= isset($request["posts"]["zip"]) ? htmlspecialchars(($request["posts"]["zip"])) : ""?>">
-                    <?php if(!empty($request["errors"]["zip"])) :?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["zip"])?></p>
-                    <?php endif;?>
-                </div>
-                <div class="content">
-                    都道府県&nbsp;&nbsp;<input type="text" name="pref" value="<?php echo isset($request["posts"]["pref"]) ? htmlspecialchars($request["posts"]["pref"]) : ""?>">
-                    <?php if(!empty($request["errors"]["pref"])) :?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["pref"])?></p>
-                    <?php endif; ?>
-                </div>
-                <div class="content">
-                    市区町村&nbsp;&nbsp;<input type="text" name="city" value="<?= isset($request["posts"]["city"]) ? htmlspecialchars($request["posts"]["city"]) : "" ?>">
-                    <?php if(!empty($request["errors"]["city"])) :?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["city"])?></p>
-                    <?php endif; ?>
-                </div>
-                <div class="content">
-                    番地&nbsp;&nbsp;<input type="text" name="num" value="<?= isset($request["posts"]["num"]) ? htmlspecialchars($request["posts"]["num"]) : ""?>">
-                    <?php if(!empty($request["errors"]["num"])) :?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["num"])?></p>
-                    <?php endif; ?>
-                </div>
-                <div class="content">
-                    建物名&nbsp;&nbsp;<input type="text" name="bld" value="<?= isset($request["posts"]["bld"]) ? htmlspecialchars($request["posts"]["bld"]) : ""?>">
-                </div>
-                <div class="content">
-                    電話番号&nbsp;&nbsp;<input type="text" name="tel" value="<?= isset($request["posts"]["tel"]) ? htmlspecialchars($request["posts"]["tel"]) : ""?>">
-                    <?php if(!empty($request["errors"]["tel"])) :?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["tel"])?></p>
-                    <?php endif; ?>
-                </div>
-                <div class="content">
-                    メールアドレス&nbsp;&nbsp;<input type="text" name="email" value="<?= isset($request["posts"]["email"]) ? htmlspecialchars($request["posts"]["email"]) : ""?>">
-                    <?php if(!empty($request["errors"]["email"])) :?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["email"])?></p>
-                    <?php endif; ?>
-                </div>
-                <div class="content">
-                    確認用メールアドレス&nbsp;&nbsp;<input type="text" name="c_email" value="<?= isset($request["posts"]["c_email"]) ? htmlspecialchars($request["posts"]["c_email"]) : ""?>">
-                    <?php if(!empty($request["errors"]["c_email"])) :?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["c_email"])?></p>
-                    <?php endif; ?>
-                </div>
-                <div class="content">
-                    お問い合わせ内容&nbsp;&nbsp;<textarea name="content" cols="50" rows="10"><?= isset($request["posts"]["content"]) ? htmlspecialchars($request["posts"]["content"]) : ""?></textarea>
-                    <?php if(!empty($request["errors"]["content"])) :?>
-                    <p style="color: red;"><?php echo htmlspecialchars($request["errors"]["content"])?></p>
+                    <?php if(!empty($post["first-kananame"])) :?>
+                    <p style="color: red;"><?php echo isKanaValidation($post["first-kananame"]) ?></p>
                     <?php endif; ?>
                 </div>
                 <div class="content-button">
                     <button type="submit" name="button" value="input" class="submit">確認</button>
                 </div>
         </form>
-
-        <?php elseif($request["flag"] === "confirm") :?>
-        <form action="" method="POST">
-            <?php foreach($request["posts"] as $key => $val) :?>
-                <input type="hidden" name="<?= $key ?>" value="<?= $val?>">
-                <?php endforeach ?>
-                <div class="content">
-                    姓：
-                    <p><?php echo htmlspecialchars($request["posts"]["last-name"]) ?></p>
-                </div>
-                <div class="content">
-                    名：
-                    <p><?php echo htmlspecialchars($request["posts"]["first-name"]) ?></p>
-                </div>
-                <div class="content">
-                    セイ：
-                    <p><?php echo htmlspecialchars($request["posts"]["last-kananame"]) ?></p>
-                </div>
-                <div class="content">
-                    メイ：
-                    <p><?php echo htmlspecialchars($request["posts"]["first-kananame"]) ?></p>
-                </div>
-                <div class="content">
-                    郵便番号：
-                    <p><?php echo htmlspecialchars($request["posts"]["zip"]) ?></p>
-                </div>
-                <div class="content">
-                    都道府県：
-                    <p><?php echo htmlspecialchars($request["posts"]["pref"]) ?></p>
-                </div>
-                <div class="content">
-                    市区町村：
-                    <p><?php echo htmlspecialchars($request["posts"]["city"]) ?></p>
-                </div>
-                <div class="content">
-                    番地：
-                    <p><?php echo htmlspecialchars($request["posts"]["num"]) ?></p>
-                </div>
-                <div class="content">
-                    建物：
-                    <p><?php echo htmlspecialchars($request["posts"]["bld"]) ?></p>
-                </div>
-                <div class="content">
-                    電話番号：
-                    <p><?php echo htmlspecialchars($request["posts"]["tel"]) ?></p>
-                </div>
-                <div class="content">
-                メールアドレス：<p><?php echo htmlspecialchars($request["posts"]["email"]) ?></p>
-                </div>
-                <div class="content">
-                    確認用メールアドレス：
-                    <p><?php echo htmlspecialchars($request["posts"]["c_email"]) ?></p>
-                </div>
-                <div class="content">
-                    内容：
-                    <p><?php echo htmlspecialchars($request["posts"]["content"]) ?></p>
-                </div>
-        <div class="content-button">
-            <button type="submit" name="button" formaction= "" value="return" class="submit">キャンセル</button>
-            <button type="submit" name ="button" formaction= "thanks.php" value="submit" class="submit">送信</button>
-        </div>
-        </form>
-        <?php endif; ?>
 </body>
 </html>
